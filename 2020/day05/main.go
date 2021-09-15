@@ -56,7 +56,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	lines, err := util.ReadToArray(file)
 

@@ -26,7 +26,7 @@ func part1(passwords []string) int {
 
 func part2(passwords []string) int {
 	valid := 0
-	rowRegexp := regexp.MustCompile(" |-|:")
+	rowRegexp := regexp.MustCompile("[ \\-:]")
 	for _, password := range passwords {
 		splitPassword := rowRegexp.Split(password, -1)
 		index1, _ := strconv.Atoi(splitPassword[0])
@@ -54,7 +54,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	lines, err := util.ReadToArray(file)
 
